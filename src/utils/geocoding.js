@@ -1,5 +1,5 @@
 const request = require("request");
-const accessToken = "pk.eyJ1IjoiZ2ltbWl0dGVzdCIsImEiOiJja29oN3pyeGMwOGtuMnhybWI4ZHcycTJnIn0.P_V37RV-8fp8L7I_XYW8ew";
+const keys = require("./keys");
 
 /**
  * Ottieni le coordinate di una location
@@ -7,7 +7,7 @@ const accessToken = "pk.eyJ1IjoiZ2ltbWl0dGVzdCIsImEiOiJja29oN3pyeGMwOGtuMnhybWI4
  * @param {function} callback
  */
 const getGeocoding = (location, callback) => {
-    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${accessToken}`;
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${keys.mapBoxKey}`;
 
     request({ url, json: true }, (error, response) => {
         if (error) {

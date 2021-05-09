@@ -1,5 +1,5 @@
 const request = require("request");
-const accessKey = "fccff6d4eaca5ed6afe7c63d4b6174b8";
+const keys = require("./keys");
 
 /**
  * Ottieni la condizione metereoligica di una location
@@ -8,7 +8,7 @@ const accessKey = "fccff6d4eaca5ed6afe7c63d4b6174b8";
  */
 const getWeather = function ({ latitude, longitude } = {}, callback) {
     //url webapi
-    const url = `http://api.weatherstack.com/current?access_key=${accessKey}&query=${latitude},${longitude}&unit=m`;
+    const url = `http://api.weatherstack.com/current?access_key=${keys.weatherStackkey}&query=${latitude},${longitude}&unit=m`;
 
     //eseguia la chiamata alla webapi weatherstack
     request({ url, json: true }, (error, response) => {
@@ -21,7 +21,6 @@ const getWeather = function ({ latitude, longitude } = {}, callback) {
         //verifica che non ci siano errori applicativi
         if (response.body.success === false) {
             const error = response.body.error;
-            console.log(response.body);
             callback(new Error(`${error.code} - ${error.info}`));
             return;
         }
