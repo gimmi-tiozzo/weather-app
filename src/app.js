@@ -3,6 +3,7 @@ const express = require("express");
 const hbs = require("hbs");
 const weather = require("./utils/weather");
 const geocoding = require("./utils/geocoding");
+
 // const raw = require("./utils/raw");
 
 //configurazioni per express
@@ -55,13 +56,21 @@ app.get("/help/*", (req, res) => {
 
 app.get("/weather", async (req, res) => {
     try {
-        const coordinate = await geocoding.getGeocodingPromise("chioggia");
+        const address = req.query.address;
+
+        if (!address) {
+            return res.status(400).json({ error: "address parameter must be declare into querystring" });
+        }
+
+        const coordinate = await geocoding.getGeocodingPromise(address);
         const info = await weather.getWeatherPromise(coordinate);
-        // const coordinate = await raw.getGeocodingPromise("chioggia");
+
+        // const coordinate = await raw.getGeocodingPromise(address);
         // const info = await raw.getWeatherPromise(coordinate);
-        res.send(info.description);
+
+        res.send({ address, location: info.location, forecast: info.description });
     } catch (e) {
-        res.send(e.message);
+        res.status(500).json({ error: e.message });
     }
 });
 
