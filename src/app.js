@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
 const weather = require("./utils/weather");
+const geocoding = require("./utils/geocoding");
 
 //configurazioni per express
 const publicPath = path.join(__dirname, "../public");
@@ -53,7 +54,8 @@ app.get("/help/*", (req, res) => {
 
 app.get("/weather", async (req, res) => {
     try {
-        const info = await weather.getWeatherPromise({ latitude: 40.7831, longitude: -73.9712 });
+        const coordinate = await geocoding.getGeocodingPromise("chioggia");
+        const info = await weather.getWeatherPromise(coordinate);
         res.send(info.description);
     } catch (e) {
         res.send(error.message);
