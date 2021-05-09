@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const hbs = require("hbs");
+const weather = require("./utils/weather");
 
 //configurazioni per express
 const publicPath = path.join(__dirname, "../public");
@@ -50,6 +51,15 @@ app.get("/help/*", (req, res) => {
     });
 });
 
+app.get("/weather", async (req, res) => {
+    try {
+        const info = await weather.getWeatherPromise({ latitude: 40.7831, longitude: -73.9712 });
+        res.send(info.description);
+    } catch (e) {
+        res.send(error.message);
+    }
+});
+
 app.get("*", (req, res) => {
     res.render("404", {
         title: "404 Error",
@@ -57,10 +67,6 @@ app.get("*", (req, res) => {
         error: "404, Page not found",
         errorType: "404",
     });
-});
-
-app.get("/weather", (req, res) => {
-    res.send({ forecast: "It's snowing", location: "Italy" });
 });
 
 app.listen(port, () => {
