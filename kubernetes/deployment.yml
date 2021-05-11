@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: weather-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: node-backend
+    template:
+        metadata:
+            labels:
+                app: node-backend
+            name: weather-pod
+        spec:
+            containers:
+                - name: weather
+                  image: gimmitest/weather-img
+                  resources:
+                      limits:
+                          memory: "128Mi"
+                          cpu: "500m"
+                  env:
+                      - name: PORT
+                        value: "3000"

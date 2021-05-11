@@ -4,7 +4,8 @@
     "description": "App in NodeJs per la visualizzazione delle condizione metereologiche",
     "main": "app.js",
     "scripts": {
-        "watch": "nodemon ./src/app.js -e js,hbs"
+        "dev": "nodemon ./src/app.js -e js,hbs",
+        "start": "node ./src/app.js"
     },
     "repository": {
         "type": "git",

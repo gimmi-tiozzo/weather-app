@@ -8,7 +8,7 @@ search.addEventListener("click", (e) => {
     const location = address.value;
     result.innerHTML = "loading...";
 
-    fetch(`http://localhost:3000/weather?address=${location}`)
+    fetch(`/weather?address=${location}`)
         .then((response) => {
             if (response.ok) {
                 return response.json();
